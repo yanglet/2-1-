@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Chat Service</title>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type='text/javascript'>
+            let chatData = [];
+
+            setInterval(function(){
+                $.ajax({
+                    type: "get",
+                    url: "http://127.0.0.1:5555/chat",
+                    dataType: "json",
+                    async: false,
+                    data: {},
+                    success: function (data){
+                        chatData = data;
+                    }
+                });
+            }, 1000);
+
+            // 채팅창에 보여질 텍스트는 usernae: message 이런식
+            function addText(){
+                let textData = "";
+
+                for(let i=0; i<chatData.length; i++){
+                    textData += chatData[i].username + ": " + chatData[i].message + "\n";
+                }
+
+                document.getElementById("target").value = textData;
+            }
+            
+        </script>
+        <style>
+            .room {
+                border: 1px solid gray;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .room textarea {
+                margin-bottom: 20px;
+                width: 500px;
+            }
+
+            .room input {
+                padding: 10px;
+                width: 400px;
+                margin-bottom: 20px;
+            }
+
+            .room textarea {
+                padding: 10px;
+                height: 300px;
+            }
+
+            .room button {
+                width: 500px;
+                padding: 10px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 class="room">Hello, My Chat Room</h1>
+        <div class="room">
+            <h2>채팅창</h2>
+            <div>
+                <button type="button" style="width: 200px; margin-bottom: 20px;" onclick="addText()">새 메세지 불러오기</button>
+            </div>
+            <div>
+                <textarea id="target" type="text" readonly="true"></textarea>
+            </div>
+            <form action="/chat" method="post">
+                <div>
+                    <input type="text" name="username" style="width: 70px;" placeholder="유저이름"/>
+                    <input type="text" name="message" placeholder="메세지를 입력하세요"/>
+                </div>
+                <div>
+                  <button type="submit">메세지 전송하기</button>
+                </div>
+            </form>
+          </div>
+    </body>
+</html>
