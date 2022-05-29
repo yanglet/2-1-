@@ -19,7 +19,7 @@
                 });
             }, 1000);
 
-            // 채팅창에 보여질 텍스트는 usernae: message 이런식
+            // 채팅창에 보여질 텍스트는 username: message 이런식
             function addText(){
                 let textData = "";
 
@@ -29,6 +29,11 @@
 
                 document.getElementById("target").value = textData;
             }
+
+            window.onload = function(){
+                setInterval(function(){
+                    addText();
+            }, 1000)};
             
         </script>
         <style>
@@ -65,9 +70,6 @@
         <h1 class="room">Hello, My Chat Room</h1>
         <div class="room">
             <h2>채팅창</h2>
-            <div>
-                <button type="button" style="width: 200px; margin-bottom: 20px;" onclick="addText()">새 메세지 불러오기</button>
-            </div>
             <div>
                 <textarea id="target" type="text" readonly="true"></textarea>
             </div>
